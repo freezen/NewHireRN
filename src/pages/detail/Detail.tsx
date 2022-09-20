@@ -25,6 +25,7 @@ export const Detail: React.FC<Props> = ({route, navigation}) => {
   const [paused, setPaused] = useState(false);
   const [videoUrl, setVideoUrl] = useState('');
   const [like, setLike] = useState();
+  const [loading, setLoading] = useState(false);
   if (!route) {
     return <></>;
   }
@@ -65,7 +66,6 @@ export const Detail: React.FC<Props> = ({route, navigation}) => {
       paddingRight: 10,
     },
     text: {
-      fontFamily: 'Ping Fang SC, SimHei',
       fontWeight: 'bold',
       fontSize: 16,
     },
@@ -111,8 +111,8 @@ export const Detail: React.FC<Props> = ({route, navigation}) => {
     console.log('onLoad');
   };
 
-  const onVideoError = () => {
-    console.log('onVideoError');
+  const onVideoError = (e) => {
+    console.log('onVideoError:', e);
   };
 
   const pause = () => {
@@ -120,12 +120,14 @@ export const Detail: React.FC<Props> = ({route, navigation}) => {
   };
 
   const clickLike = async () => {
+    setLoading(true);
     await post('/favorite/like', {
       id: getCredentials().id,
       videoId: id,
       like: !like,
     });
-    refresh();
+    await refresh();
+    setLoading(false);
   };
 
   const refresh = async () => {
@@ -149,7 +151,12 @@ export const Detail: React.FC<Props> = ({route, navigation}) => {
               onLoad={onLoad}
               onError={onVideoError}
             />
-            {!loaded && <Text style={styles.status}>loading ...</Text>}
+            {!loaded && (
+              <Image
+                style={{width: 80, height: 80}}
+                source={require('../../../assets/loading.gif')}
+              />
+            )}
             {paused && <Text style={styles.status}>| |</Text>}
           </View>
           <View style={styles.title}>
@@ -163,19 +170,26 @@ export const Detail: React.FC<Props> = ({route, navigation}) => {
               />
               <Text style={styles.uname}>{uname}</Text>
             </View>
-            <View onTouchEnd={clickLike}>
-              {like ? (
-                <Image
-                  style={commonIconStyle}
-                  source={require('../../../assets/loved.png')}
-                />
-              ) : (
-                <Image
-                  style={commonIconStyle}
-                  source={require('../../../assets/love.png')}
-                />
-              )}
-            </View>
+            {getCredentials().token && (
+              <View onTouchEnd={clickLike}>
+                {loading === true ? (
+                  <Image
+                    style={commonIconStyle}
+                    source={require('../../../assets/loading.gif')}
+                  />
+                ) : like ? (
+                  <Image
+                    style={commonIconStyle}
+                    source={require('../../../assets/loved.png')}
+                  />
+                ) : (
+                  <Image
+                    style={commonIconStyle}
+                    source={require('../../../assets/love.png')}
+                  />
+                )}
+              </View>
+            )}
           </View>
         </View>
       )}

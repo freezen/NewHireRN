@@ -2,8 +2,16 @@
  * Item
  */
 
-import React, {PropsWithChildren} from 'react';
-import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
+import React, {PropsWithChildren, useState} from 'react';
+import ContentLoader, {Rect} from 'react-content-loader/native';
+import {
+  Dimensions,
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {IVideoItem} from '../../../../typing';
 
 type Props = PropsWithChildren<{
@@ -22,11 +30,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingBottom: 5,
+    position: 'relative',
   },
   picture: {
     height: 200,
     width: '100%',
     overflow: 'hidden',
+  },
+  skeleton: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
   },
   title: {
     paddingTop: 5,
@@ -35,7 +49,6 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   text: {
-    fontFamily: 'Ping Fang SC, SimHei',
     fontWeight: 'bold',
     fontSize: 16,
   },
@@ -58,6 +71,7 @@ const styles = StyleSheet.create({
 });
 
 export const Item: React.FC<Props> = ({data, navigation, style}) => {
+  const [loaded, setLoaded] = useState(false);
   if (!data || !data.id) {
     return (
       <View
@@ -65,14 +79,32 @@ export const Item: React.FC<Props> = ({data, navigation, style}) => {
       />
     );
   }
+  let t = 0;
   const clickItem = () => {
-    navigation.navigate('Detail', {
-      ...data,
-    });
+    if (Date.now() - t < 300) {
+      navigation.navigate('Detail', {
+        ...data,
+      });
+    }
   };
+  const clickStart = () => {
+    t = Date.now();
+  };
+  const loadPic = () => {
+    setLoaded(true);
+  };
+  const {width} = Dimensions.get('window');
   return (
-    <View style={{...styles.container, ...style}} onTouchEnd={clickItem}>
-      <Image style={styles.picture} source={data.pic} />
+    <View
+      style={{...styles.container, ...style}}
+      onTouchEnd={clickItem}
+      onTouchStart={clickStart}>
+      <Image style={styles.picture} source={data.pic} onLoad={loadPic} />
+      {loaded === false && (
+        <ContentLoader style={styles.skeleton}>
+          <Rect x="0" y="0" rx="10" ry="0" width={width / 2} height="200" />
+        </ContentLoader>
+      )}
       <View style={styles.title}>
         <Text style={styles.text} ellipsizeMode={'tail'} numberOfLines={1}>
           {data.name}

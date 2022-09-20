@@ -16,7 +16,6 @@ export const App = () => {
     homeStyle: {
       justifyContent: 'space-between',
       height: '100%',
-      fontFamily: 'Ping Fang SC, SimHei',
       backgroundColor: 'white',
     },
   });
@@ -29,8 +28,8 @@ export const App = () => {
     <SafeAreaView style={styles.homeStyle}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Login" component={Login} options={opt} />
           <Stack.Screen name="Home" component={Home} options={opt} />
+          <Stack.Screen name="Login" component={Login} options={opt} />
           <Stack.Screen name="Detail" component={Detail} options={opt} />
           <Stack.Screen name="Me" component={User} options={opt} />
         </Stack.Navigator>

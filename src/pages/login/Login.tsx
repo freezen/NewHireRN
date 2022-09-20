@@ -3,7 +3,7 @@
  */
 
 import React, {PropsWithChildren} from 'react';
-import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Alert, Platform, StyleSheet, Text, TextInput, View} from 'react-native';
 import {setCredentials} from '../../util/login';
 import {post} from '../../util/request';
 
@@ -28,7 +28,6 @@ export const Login: React.FC<Props> = ({navigation}) => {
       marginBottom: 100,
     },
     title: {
-      fontFamily: 'Ping Fang SC, SimHei',
       fontWeight: 'bold',
       fontSize: 30,
       color: '#888',
@@ -55,6 +54,9 @@ export const Login: React.FC<Props> = ({navigation}) => {
       borderRadius: 4,
       backgroundColor: '#065fd4',
     },
+    patch: {
+      paddingTop: 10,
+    },
   });
 
   let username = '';
@@ -73,7 +75,9 @@ export const Login: React.FC<Props> = ({navigation}) => {
       const data = res?.data ?? {};
       if (data.success === true) {
         setCredentials(name, data.token, data.auth, data.id);
-        navigation.navigate('Home');
+        navigation.navigate('Home', {
+          refresh: Date.now(),
+        });
       } else {
         Alert.alert(
           'Caution',
@@ -124,10 +128,15 @@ export const Login: React.FC<Props> = ({navigation}) => {
       </View>
       <View style={styles.panel}>
         <View style={styles.row}>
-          <TextInput onChangeText={usernameChange} placeholder="Username" />
+          <TextInput
+            style={Platform.OS === 'ios' && styles.patch}
+            onChangeText={usernameChange}
+            placeholder="Username"
+          />
         </View>
         <View style={styles.row}>
           <TextInput
+            style={Platform.OS === 'ios' && styles.patch}
             secureTextEntry={true}
             onChangeText={pwdChange}
             placeholder="Password"

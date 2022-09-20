@@ -1,9 +1,13 @@
 import axios from 'axios';
 import {getCredentials} from './login';
+import {Platform} from 'react-native';
 
 export const reqConfig = {
-  url: 'http://34.220.173.157:7001',
-  // url: 'http://10.0.2.2:7001',
+  // url: 'http://34.220.173.157:7001',
+  url:
+    Platform.OS === 'ios'
+      ? 'http://34.220.173.157:7001'
+      : 'http://10.0.2.2:7001',
 };
 
 export const get = (path: string) => {

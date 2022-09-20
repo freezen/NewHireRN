@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     width: '100%',
-    overflow: 'hidden',
   },
 });
 
@@ -76,7 +75,7 @@ export const List: React.FC<Props> = ({
       index => 1,
       (_, dim) => {
         dim.width = dimension.width;
-        dim.height = (dimension.height - 150) / 2;
+        dim.height = 265;
       },
     ),
   );

@@ -21,7 +21,7 @@ export const Home: React.FC<Props> = ({route, navigation}) => {
   const {refresh} = route?.params ?? false;
   return (
     <>
-      <Header setUploaded={setUploaded} />
+      <Header setUploaded={setUploaded} navigation={navigation} />
       <List
         navigation={navigation}
         isUploaded={isUploaded}

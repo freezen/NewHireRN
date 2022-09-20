@@ -12,6 +12,8 @@ target 'NewHireRN' do
   # Flags change depending on the env values.
   flags = get_default_flags()
 
+  `pod 'react-native-video', :path => '../node_modules/react-native-video/react-native-video.podspec`
+
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods

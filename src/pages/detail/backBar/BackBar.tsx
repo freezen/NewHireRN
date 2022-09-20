@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   title: {
-    fontFamily: 'Ping Fang SC, SimHei',
     fontWeight: 'bold',
     fontSize: 16,
   },

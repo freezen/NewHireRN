@@ -67,7 +67,6 @@ export const User: React.FC<Props> = ({navigation}) => {
       borderRadius: 16,
     },
     title: {
-      fontFamily: 'Ping Fang SC, SimHei',
       fontWeight: 'bold',
       fontSize: 16,
     },
@@ -75,20 +74,26 @@ export const User: React.FC<Props> = ({navigation}) => {
 
   const quit = () => {
     clearLogin();
-    navigation.navigate('Login');
+    navigation.navigate('Home', {
+      refresh: Date.now(),
+    });
   };
 
   const heads = {
     Jim: require('../../../assets/Jim.png'),
     Sam: require('../../../assets/Sam.png'),
+    default: require('../../../assets/default.png'),
   } as any;
 
   return (
     <View style={styles.main}>
       <View style={styles.bar}>
         <View style={styles.bigHead}>
-          <Image style={styles.head} source={heads[getCredentials().key]} />
-          <View style={styles.dot} />
+          <Image
+            style={styles.head}
+            source={heads[getCredentials().key || 'default']}
+          />
+          {getCredentials().key && <View style={styles.dot} />}
         </View>
         <Text style={styles.title}>ABC Training Insight</Text>
         <Text> </Text>
