@@ -39,8 +39,11 @@ const styles = StyleSheet.create({
   },
   skeleton: {
     position: 'absolute',
+    height: 200,
+    width: '100%',
     top: 0,
     left: 0,
+    backgroundColor: 'white',
   },
   title: {
     paddingTop: 5,
@@ -72,11 +75,21 @@ const styles = StyleSheet.create({
 
 export const Item: React.FC<Props> = ({data, navigation, style}) => {
   const [loaded, setLoaded] = useState(false);
+  const {width} = Dimensions.get('window');
+  const skeletonWidth = width / 2 - 30;
+  const skeletonHeight = 28;
   if (!data || !data.id) {
     return (
-      <View
-        style={{...styles.container, ...style, backgroundColor: '#f7f7f7'}}
-      />
+      <View style={{...styles.container, ...style}}>
+        <ContentLoader style={{...styles.skeleton, height: 260}}>
+          <Rect x="10" y="10" width={skeletonWidth} height={skeletonHeight} />
+          <Rect x="10" y="50" width={skeletonWidth} height={skeletonHeight} />
+          <Rect x="10" y="90" width={skeletonWidth} height={skeletonHeight} />
+          <Rect x="10" y="130" width={skeletonWidth} height={skeletonHeight} />
+          <Rect x="10" y="170" width={skeletonWidth} height={skeletonHeight} />
+          <Rect x="10" y="210" width={skeletonWidth} height={skeletonHeight} />
+        </ContentLoader>
+      </View>
     );
   }
   let t = 0;
@@ -93,7 +106,6 @@ export const Item: React.FC<Props> = ({data, navigation, style}) => {
   const loadPic = () => {
     setLoaded(true);
   };
-  const {width} = Dimensions.get('window');
   return (
     <View
       style={{...styles.container, ...style}}
@@ -102,7 +114,11 @@ export const Item: React.FC<Props> = ({data, navigation, style}) => {
       <Image style={styles.picture} source={data.pic} onLoad={loadPic} />
       {loaded === false && (
         <ContentLoader style={styles.skeleton}>
-          <Rect x="0" y="0" rx="10" ry="0" width={width / 2} height="200" />
+          <Rect x="10" y="10" width={skeletonWidth} height={skeletonHeight} />
+          <Rect x="10" y="50" width={skeletonWidth} height={skeletonHeight} />
+          <Rect x="10" y="90" width={skeletonWidth} height={skeletonHeight} />
+          <Rect x="10" y="130" width={skeletonWidth} height={skeletonHeight} />
+          <Rect x="10" y="170" width={skeletonWidth} height={skeletonHeight} />
         </ContentLoader>
       )}
       <View style={styles.title}>

@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
   cameraIcon: {
     width: 40,
     height: 40,
+    opacity: 0.6,
   },
   videoIcon: {
     width: 40,
@@ -442,11 +443,11 @@ export const Header: React.FC<Props> = ({setUploaded, navigation}) => {
       if (p >= 76) {
         clearInterval(interval);
       } else {
-        p += parseInt(Math.random() * 10 + '', 10);
+        p += parseInt(Math.random() * 5 + '', 10);
         console.log('p:', p);
         setProgress(p > 76 ? 76 : p);
       }
-    }, parseInt(Math.random() * 10 + '', 10) * 100);
+    }, parseInt(Math.random() * 20 + '', 10) * 100);
   };
   return (
     <View style={styles.container}>

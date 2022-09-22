@@ -74,7 +74,7 @@ export const Login: React.FC<Props> = ({navigation}) => {
       });
       const data = res?.data ?? {};
       if (data.success === true) {
-        setCredentials(name, data.token, data.auth, data.id);
+        setCredentials(name, data.token, data.auth, data.id, data.expireTime);
         navigation.navigate('Home', {
           refresh: Date.now(),
         });

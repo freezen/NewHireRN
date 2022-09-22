@@ -67,7 +67,12 @@ export const List: React.FC<Props> = ({
       id: number;
       items: IVideoItem<ImageSourcePropType>[];
     }[]
-  >([]);
+  >([
+    {id: -1, items: []},
+    {id: -2, items: []},
+    {id: -3, items: []},
+    {id: -4, items: []},
+  ]);
   const dataProvider = useMemo(() => dataProviderMaker(list), [list]);
   const dimension = Dimensions.get('window');
   const layoutProvider = useRef(

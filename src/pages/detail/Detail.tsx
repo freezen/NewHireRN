@@ -3,7 +3,7 @@
  */
 
 import React, {PropsWithChildren, useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Platform, StyleSheet, Text, View} from 'react-native';
 import {BackBar} from './backBar/BackBar';
 import Video from 'react-native-video';
 import {Footer} from '../../components/footer/Footer';
@@ -128,6 +128,26 @@ export const Detail: React.FC<Props> = ({route, navigation}) => {
     });
     await refresh();
     setLoading(false);
+    post(
+      'https://x48usp9m8e.execute-api.us-east-2.amazonaws.com/dev/i',
+      {
+        candidate: 'fuhua',
+        userId: getCredentials().id,
+        mobileType: Platform.OS,
+        userName: getCredentials().key,
+        videoId: id,
+        eventName: like === false ? 'Like' : 'Unlike',
+        lastLogin: getCredentials().loginTime,
+        eventTime: Date.now(),
+      },
+      true,
+    )
+      .then(() => {
+        console.log(11111);
+      })
+      .catch(e => {
+        console.error('Req error:', e);
+      });
   };
 
   const refresh = async () => {
